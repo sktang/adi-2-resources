@@ -11,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mButton;
     private TextView mText;
 
+    public static int REQUEST_CODE = 27;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +25,23 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            // Make sure the request was successful...
+            if (resultCode == RESULT_OK) {
+                String firstName = data.getStringExtra("first");
+                String lastName = data.getStringExtra("last");
+                mText.setText(firstName+" "+lastName);
+            }
+        }
+
+    }
+
 }
