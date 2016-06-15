@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -11,13 +12,55 @@
 
     <TextView
         android:id="@+id/textView"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textColor="@android:color/black"
         android:text="Hello!"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="40dp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/blueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="250dp"
+        android:text="BLUE"
+        android:textColor="@color/blue" />
+
+    <Button
+        android:id="@+id/pinkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="250dp"
+        android:text="PINK"
+        android:textColor="@color/pink" />
+
+    <Button
+        android:id="@+id/purpleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="350dp"
+        android:text="PURPLE"
+        android:textColor="@color/purple" />
+
+    <Button
+        android:id="@+id/greenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="350dp"
+        android:text="GREEN"
+        android:textColor="@color/green" />
 
 </RelativeLayout>
