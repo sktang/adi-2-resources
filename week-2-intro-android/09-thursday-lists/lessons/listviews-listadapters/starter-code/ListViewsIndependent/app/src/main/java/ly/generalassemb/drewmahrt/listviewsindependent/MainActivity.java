@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.LinkedList;
@@ -13,26 +14,34 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity {
     LinkedList<String> mStringList;
     ArrayAdapter<String> mAdapter;
+    EditText input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        input = (EditText) findViewById(R.id.edit_text);
+
         //Instantiate your LinkedList
-        mStringList =
+        mStringList = new LinkedList<>();
 
         //Instantiate your adapter
-        mAdapter =
+        mAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, mStringList);
 
         //Get your ListView and set the adapter
-        ListView listView =
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        listView.setAdapter(mAdapter);
 
         //Complete the FloatingActionButton onClick method to add a list item
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                mStringList.add(input.getText().toString());
+                mAdapter.notifyDataSetChanged();
+                input.setText("");
 
             }
         });
