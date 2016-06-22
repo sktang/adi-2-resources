@@ -10,7 +10,10 @@
         android:layout_height="fill_parent"
         android:text="list 1"
         android:layout_weight="9"
-        android:gravity="center_vertical"/>
+        android:textSize="16dp"
+        android:gravity="center_vertical"
+        android:background="@android:color/transparent"
+        />
 
     <Button
         android:id="@+id/remove_list_button"
@@ -18,6 +21,7 @@
         android:layout_height="wrap_content"
         android:text="remove"
         android:layout_gravity="right"
+        android:focusable="false"
         android:layout_weight="1"/>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.kitty.to_dol_list;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,11 @@ public class CustomBaseAdapter extends BaseAdapter {
         // checkbox checked if boolean isDone == true
         if(currentTask.isDone()) {
             viewHolder.checkBox.setChecked(true);
-        } else viewHolder.checkBox.setChecked(false);
-
+            viewHolder.taskName.setTextColor(Color.GRAY);
+        } else {
+            viewHolder.checkBox.setChecked(false);
+            viewHolder.taskName.setTextColor(Color.BLACK);
+        }
         // action if checkbox is checked
         viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

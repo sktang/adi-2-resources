@@ -2,6 +2,7 @@ package com.example.kitty.to_dol_list;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**

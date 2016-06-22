@@ -14,7 +14,7 @@ public class MasterList {
         toDoList = new ArrayList<>();
     }
 
-    public MasterList getInstance() {
+    public static MasterList getInstance() {
         if(maststerList == null) {
             maststerList = new MasterList();
         }
@@ -22,15 +22,23 @@ public class MasterList {
     }
 
     public void addSubList(SubList subList) {
-        toDoList.add(subList);
+        toDoList.add(0, subList);
     }
 
     public void removeSubList(SubList subList) {
         toDoList.remove(subList);
     }
 
-    public ArrayList<SubList> getSubList() {
+    public ArrayList<SubList> getSubLists() {
         return toDoList;
+    }
+
+    public SubList getSubList (int position) {
+        return toDoList.get(position);
+    }
+
+    public void setSubList (int position, SubList updatedList) {
+        toDoList.set(position, updatedList);
     }
 
 }

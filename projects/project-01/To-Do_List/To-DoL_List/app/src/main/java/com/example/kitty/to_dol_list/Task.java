@@ -1,9 +1,13 @@
 package com.example.kitty.to_dol_list;
 
+import java.io.Serializable;
+
 /**
  * Created by kitty on 6/21/16.
  */
-public class Task {
+public class Task implements Serializable {
+
+    private static final long serialVersionUID2 = 8526472295622776148L;
 
     private String taskName;
     private String taskDescription;

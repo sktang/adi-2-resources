@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,8 @@ public class CustomBaseAdapterMaster extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 data.remove(currentSubList);
+                Toast.makeText(context, "List removed", Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
             }
         });
 
