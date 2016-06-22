@@ -8,12 +8,10 @@ import java.util.ArrayList;
 public class SubList {
 
     private String listName;
-    private String listDescription;
     private ArrayList<Task> items;
 
-    public SubList(String listName, String listDescription) {
+    public SubList(String listName) {
         this.listName = listName;
-        this.listDescription = listDescription;
         this.items = new ArrayList<>();
     }
 
@@ -23,14 +21,6 @@ public class SubList {
 
     public void setListName(String listName) {
         this.listName = listName;
-    }
-
-    public String getListDescription() {
-        return listDescription;
-    }
-
-    public void setListDescription(String listDescription) {
-        this.listDescription = listDescription;
     }
 
     public ArrayList<Task> getItems() {
