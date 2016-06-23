@@ -66,14 +66,17 @@ public class SecondActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                indList.setListName(listName.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra(RETURN_SERIALIZABLE_KEY, indList);
-                setResult(RESULT_OK, intent);
-                Toast.makeText(listAdapter.context, "List saved", Toast.LENGTH_SHORT).show();
-                finish();
+                if (listName.getText().toString().isEmpty()) {
+                    listName.setError("Please enter a list name");
+                } else {
+                    indList.setListName(listName.getText().toString());
+                    Intent intent = new Intent();
+                    intent.putExtra(RETURN_SERIALIZABLE_KEY, indList);
+                    setResult(RESULT_OK, intent);
+                    Toast.makeText(listAdapter.context, "List saved", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
-
     }
 }

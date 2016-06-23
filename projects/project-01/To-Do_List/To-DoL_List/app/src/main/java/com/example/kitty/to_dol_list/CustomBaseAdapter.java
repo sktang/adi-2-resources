@@ -55,7 +55,7 @@ public class CustomBaseAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final Task currentTask = data.get(position);
+        final Task currentTask = data.get(data.size()-position-1);
 
         // checkbox checked if boolean isDone == true
         if(currentTask.isDone()) {

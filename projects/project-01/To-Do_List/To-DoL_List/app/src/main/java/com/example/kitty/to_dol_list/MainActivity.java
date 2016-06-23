@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         addNewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toDoList.addSubList(new SubList(" "));
+                toDoList.addSubList(new SubList(""));
                 Toast.makeText(MainActivity.this, "Added new list", Toast.LENGTH_SHORT).show();
                 masterAdapter.notifyDataSetChanged();
             }

@@ -30,12 +30,16 @@ public class SubList implements Serializable {
         this.listName = listName;
     }
 
+    public Task getItem(int position) {
+        return items.get(position);
+    }
+
     public ArrayList<Task> getItems() {
         return items;
     }
 
     public void addItem(Task task) {
-        items.add(0, task);
+        items.add(task);
     }
 
     public void removeItem(Task task) {
