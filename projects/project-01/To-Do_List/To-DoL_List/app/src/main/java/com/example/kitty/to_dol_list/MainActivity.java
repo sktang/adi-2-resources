@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ListView masterList;
     FloatingActionButton addNewList;
     CustomBaseAdapterMaster masterAdapter;
+    private int listNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         toDoList = MasterList.getInstance();
 
-        Task task1 = new Task("asdlfkj", "aisljdflkj");
+        Task task1 = new Task("Test Task", "Task description");
+        task1.setDone();
         SubList list1 = new SubList("list 1");
         list1.addItem(task1);
         toDoList.addSubList(list1);
@@ -47,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         masterList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "Clicked on a list", Toast.LENGTH_SHORT).show();
+                listNum = position;
+                //Toast.makeText(MainActivity.this, "Clicked on a list", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 SubList currList = toDoList.getSubList(position);
                 intent.putExtra(LIST_SERIALIZABLE_KEY, currList);
@@ -70,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
-            //SubList updatedList = (SubList) data.getSerializableExtra(SecondActivity.LIST_SERIALIZABLE_KEY);
-            //toDoList.setSubList(this, updatedList);
-            //masterAdapter.notifyDataSetChanged();
+            SubList updatedList = (SubList) data.getSerializableExtra(SecondActivity.RETURN_SERIALIZABLE_KEY);
+            toDoList.setSubList(listNum, updatedList);
+            masterAdapter.notifyDataSetChanged();
         }
     }
 }

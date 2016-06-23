@@ -2,6 +2,7 @@ package com.example.kitty.to_dol_list;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,8 +22,7 @@ import java.util.ArrayList;
 public class CustomBaseAdapter extends BaseAdapter {
 
     private ArrayList<Task> data;
-    private Context context;
-    private ViewHolder viewHolder;
+    Context context;
 
     public CustomBaseAdapter(ArrayList<Task> taskList, Context context) {
         this.data = taskList;
@@ -45,6 +46,7 @@ public class CustomBaseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder viewHolder;
         if(convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.task_list_item, parent, false);
             viewHolder = new ViewHolder(convertView);
@@ -59,9 +61,13 @@ public class CustomBaseAdapter extends BaseAdapter {
         if(currentTask.isDone()) {
             viewHolder.checkBox.setChecked(true);
             viewHolder.taskName.setTextColor(Color.GRAY);
+            viewHolder.taskName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.taskDescription.setTextColor(Color.GRAY);
+            viewHolder.taskDescription.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             viewHolder.checkBox.setChecked(false);
             viewHolder.taskName.setTextColor(Color.BLACK);
+            viewHolder.taskDescription.setTextColor(Color.BLACK);
         }
         // action if checkbox is checked
         viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -74,12 +80,32 @@ public class CustomBaseAdapter extends BaseAdapter {
         });
 
         viewHolder.taskName.setText(currentTask.getTaskname());
+        viewHolder.taskName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    return;
+                }
+                currentTask.setTaskname(viewHolder.taskName.getText().toString());
+            }
+        });
+
         viewHolder.taskDescription.setText(currentTask.getTaskDescription());
+        viewHolder.taskDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    return;
+                }
+                currentTask.setTaskDescription(viewHolder.taskDescription.getText().toString());
+            }
+        });
 
         viewHolder.removeListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 data.remove(currentTask);
+                Toast.makeText(context, "Task removed", Toast.LENGTH_SHORT).show();
                 notifyDataSetChanged();
             }
         });

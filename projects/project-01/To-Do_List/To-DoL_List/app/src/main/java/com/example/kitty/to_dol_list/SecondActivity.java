@@ -1,13 +1,16 @@
 package com.example.kitty.to_dol_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by kitty on 6/22/16.
@@ -20,7 +23,7 @@ public class SecondActivity extends AppCompatActivity {
     private SubList indList;
     private ListView subList;
     private FloatingActionButton addTask;
-    private FloatingActionButton backButton;
+    private ImageButton backButton;
 
     private CustomBaseAdapter listAdapter;
 
@@ -33,8 +36,10 @@ public class SecondActivity extends AppCompatActivity {
 
         listName = (EditText) findViewById(R.id.sublist_name);
         subList = (ListView) findViewById(R.id.sublist_list);
-        backButton = (FloatingActionButton) findViewById(R.id.back_button);
+        backButton = (ImageButton) findViewById(R.id.back_button);
         addTask = (FloatingActionButton) findViewById(R.id.add_new_task);
+
+        listName.setText(indList.getListName());
 
         listAdapter = new CustomBaseAdapter(indList.getItems(), SecondActivity.this);
 
@@ -43,12 +48,32 @@ public class SecondActivity extends AppCompatActivity {
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                indList.addItem(new Task(" ", " "));
+                indList.addItem(new Task("", ""));
                 listAdapter.notifyDataSetChanged();
             }
         });
 
+        listName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    return;
+                }
+                indList.setListName(listName.getText().toString());
+            }
+        });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                indList.setListName(listName.getText().toString());
+                Intent intent = new Intent();
+                intent.putExtra(RETURN_SERIALIZABLE_KEY, indList);
+                setResult(RESULT_OK, intent);
+                Toast.makeText(listAdapter.context, "List saved", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
     }
 }

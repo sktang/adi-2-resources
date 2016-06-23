@@ -17,8 +17,7 @@ import java.util.ArrayList;
 public class CustomBaseAdapterMaster extends BaseAdapter {
 
     private ArrayList<SubList> data;
-    private Context context;
-    private ViewHolderMaster viewHolderMaster;
+    Context context;
 
     public CustomBaseAdapterMaster(ArrayList<SubList> subList, Context context) {
         this.data = subList;
@@ -42,6 +41,7 @@ public class CustomBaseAdapterMaster extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolderMaster viewHolderMaster;
         if(convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.master_list_item, parent, false);
             viewHolderMaster = new ViewHolderMaster(convertView);

@@ -1,5 +1,7 @@
 package com.example.kitty.to_dol_list;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 /**
@@ -45,5 +47,10 @@ public class Task implements Serializable {
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
+    }
+
+    @Override
+    public String toString() {
+        return TextUtils.join(",", new String[] {taskName, taskDescription});
     }
 }

@@ -22,6 +22,10 @@ public class SubList implements Serializable {
         return listName;
     }
 
+    public int getSize() {
+        return items.size();
+    }
+
     public void setListName(String listName) {
         this.listName = listName;
     }
