@@ -12,6 +12,7 @@
         android:layout_weight="9"
         android:textSize="16dp"
         android:gravity="center_vertical"
+        android:hint="List Name"
         android:background="@android:color/transparent"
         />
 

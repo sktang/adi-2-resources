@@ -12,13 +12,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String LIST_SERIALIZABLE_KEY = "ListSerializableKey";
 
-    //public static final String REQUEST_CODE = "rqCode";
+    private static String STATE_ITEMS = "items";
+
     public static final int CURR_LIST = 123;
     MasterList toDoList;
     ListView masterList;
@@ -33,15 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         toDoList = MasterList.getInstance();
 
-        Task task1 = new Task("Test Task", "Task description");
-        task1.setDone();
-        SubList list1 = new SubList("list 1");
-        list1.addItem(task1);
-        toDoList.addSubList(list1);
-
         masterAdapter = new CustomBaseAdapterMaster(toDoList.getSubLists(), MainActivity.this);
-
-        System.out.println(toDoList.getSubList(0).getListName());
 
         masterList = (ListView) findViewById(R.id.master_list);
         masterList.setAdapter(masterAdapter);
@@ -78,4 +72,5 @@ public class MainActivity extends AppCompatActivity {
             masterAdapter.notifyDataSetChanged();
         }
     }
+
 }

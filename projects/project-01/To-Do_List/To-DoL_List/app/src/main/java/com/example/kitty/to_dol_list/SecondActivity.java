@@ -48,8 +48,13 @@ public class SecondActivity extends AppCompatActivity {
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if(indList.getItem(indList.getSize()-1).getTaskname().isEmpty()) {
+                    //listAdapter.set
+
+                } else {*/
                 indList.addItem(new Task("", ""));
                 listAdapter.notifyDataSetChanged();
+                //}
             }
         });
 
