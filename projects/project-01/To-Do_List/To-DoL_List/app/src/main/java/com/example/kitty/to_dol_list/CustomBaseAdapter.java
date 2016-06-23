@@ -67,15 +67,31 @@ public class CustomBaseAdapter extends BaseAdapter {
         } else {
             viewHolder.checkBox.setChecked(false);
             viewHolder.taskName.setTextColor(Color.BLACK);
+            viewHolder.taskName.setPaintFlags(0);
             viewHolder.taskDescription.setTextColor(Color.BLACK);
+            viewHolder.taskDescription.setPaintFlags(0);
         }
+
         // action if checkbox is checked
-        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+            public void onClick(View v) {
+                if(((CheckBox) v).isChecked()) {
                     currentTask.setDone();
-                } else currentTask.setUnDone();
+                    viewHolder.checkBox.setChecked(true);
+                    viewHolder.taskName.setTextColor(Color.GRAY);
+                    viewHolder.taskName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    viewHolder.taskDescription.setTextColor(Color.GRAY);
+                    viewHolder.taskDescription.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    currentTask.setUnDone();
+                    viewHolder.checkBox.setChecked(false);
+                    viewHolder.taskName.setTextColor(Color.BLACK);
+                    viewHolder.taskName.setPaintFlags(0);
+                    viewHolder.taskDescription.setTextColor(Color.BLACK);
+                    viewHolder.taskDescription.setPaintFlags(0);
+                }
+                notifyDataSetChanged();
             }
         });
 
