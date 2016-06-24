@@ -11,7 +11,7 @@ Kitty's To-do List App
 	- when a task is checked off it will be grayed out and strikethrough.
 	- use the x on the top right corner to close/save the list. (will not let you save if you do not have a list name).
 
-possible bugs:
+possible bugs/things I didn't do:
 - can add as many new lists and new tasks even if the previously added list/task are empty.
 - list names and task names are not limited by number of character.
 
