@@ -5,9 +5,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-/**
- * Created by kitty on 6/22/16.
- */
+// view holder for master list
 public class ViewHolderMaster {
 
     TextView listName;

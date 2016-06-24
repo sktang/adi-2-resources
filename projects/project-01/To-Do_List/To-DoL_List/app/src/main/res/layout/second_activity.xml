@@ -4,24 +4,38 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/sublist_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/sublist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:hint="Sublist"
             android:textSize="24dp"
             android:inputType="text"/>
 
-        <ListView
-            android:id="@+id/sublist_list"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"/>
-
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:padding="4dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_delete"
+            android:tint="@color/black"/>
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/sublist_list"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/sublist_title"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_new_task"
@@ -33,16 +47,5 @@
         android:src="@android:drawable/ic_input_add"
         android:tint="@color/white" />
 
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:padding="4dp"
-        android:background="@android:color/transparent"
-        android:src="@android:drawable/ic_delete"
-        android:tint="@color/black"/>
 
 </RelativeLayout>

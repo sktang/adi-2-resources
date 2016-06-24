@@ -11,9 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by kitty on 6/22/16.
- */
+// custom adapter for master list
 public class CustomBaseAdapterMaster extends BaseAdapter {
 
     private ArrayList<SubList> data;
@@ -42,6 +40,7 @@ public class CustomBaseAdapterMaster extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolderMaster viewHolderMaster;
+
         if(convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.master_list_item, parent, false);
             viewHolderMaster = new ViewHolderMaster(convertView);

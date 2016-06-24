@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String LIST_SERIALIZABLE_KEY = "ListSerializableKey";
 
-    private static String STATE_ITEMS = "items";
-
     public static final int CURR_LIST = 123;
     MasterList toDoList;
     ListView masterList;
@@ -36,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         toDoList = MasterList.getInstance();
 
         masterAdapter = new CustomBaseAdapterMaster(toDoList.getSubLists(), MainActivity.this);
-
         masterList = (ListView) findViewById(R.id.master_list);
         masterList.setAdapter(masterAdapter);
 
@@ -44,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listNum = position;
-                //Toast.makeText(MainActivity.this, "Clicked on a list", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 SubList currList = toDoList.getSubList(position);
                 intent.putExtra(LIST_SERIALIZABLE_KEY, currList);

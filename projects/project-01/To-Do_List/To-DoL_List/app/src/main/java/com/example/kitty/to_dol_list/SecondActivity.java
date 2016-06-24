@@ -5,16 +5,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by kitty on 6/22/16.
- */
 public class SecondActivity extends AppCompatActivity {
 
     public static final String RETURN_SERIALIZABLE_KEY = "ReturnSerializableKey";
@@ -48,16 +43,12 @@ public class SecondActivity extends AppCompatActivity {
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(indList.getItem(indList.getSize()-1).getTaskname().isEmpty()) {
-                    //listAdapter.set
-
-                } else {*/
                 indList.addItem(new Task("", ""));
                 listAdapter.notifyDataSetChanged();
-                //}
             }
         });
 
+        // save data after user input
         listName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

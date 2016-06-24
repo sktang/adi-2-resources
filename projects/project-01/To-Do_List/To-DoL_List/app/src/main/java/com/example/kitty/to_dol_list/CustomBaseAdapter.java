@@ -16,9 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by kitty on 6/22/16.
- */
+// custom adapter for sublist
 public class CustomBaseAdapter extends BaseAdapter {
 
     private ArrayList<Task> data;
@@ -47,7 +45,7 @@ public class CustomBaseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.task_list_item, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
@@ -55,10 +53,10 @@ public class CustomBaseAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final Task currentTask = data.get(data.size()-position-1);
+        final Task currentTask = data.get(data.size() - position - 1);
 
         // checkbox checked if boolean isDone == true
-        if(currentTask.isDone()) {
+        if (currentTask.isDone()) {
             viewHolder.checkBox.setChecked(true);
             viewHolder.taskName.setTextColor(Color.GRAY);
             viewHolder.taskName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -76,13 +74,15 @@ public class CustomBaseAdapter extends BaseAdapter {
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((CheckBox) v).isChecked()) {
+                if (((CheckBox) v).isChecked() && !viewHolder.taskName.getText().toString().isEmpty()) {
                     currentTask.setDone();
                     viewHolder.checkBox.setChecked(true);
                     viewHolder.taskName.setTextColor(Color.GRAY);
                     viewHolder.taskName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     viewHolder.taskDescription.setTextColor(Color.GRAY);
                     viewHolder.taskDescription.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                } else if (((CheckBox) v).isChecked() && viewHolder.taskName.getText().toString().isEmpty()) {
+                    Toast.makeText(context, "Task empty", Toast.LENGTH_SHORT).show();
                 } else {
                     currentTask.setUnDone();
                     viewHolder.checkBox.setChecked(false);
@@ -96,6 +96,7 @@ public class CustomBaseAdapter extends BaseAdapter {
         });
 
         viewHolder.taskName.setText(currentTask.getTaskname());
+        // save task name after user input
         viewHolder.taskName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -107,6 +108,7 @@ public class CustomBaseAdapter extends BaseAdapter {
         });
 
         viewHolder.taskDescription.setText(currentTask.getTaskDescription());
+        // save task description after user input
         viewHolder.taskDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

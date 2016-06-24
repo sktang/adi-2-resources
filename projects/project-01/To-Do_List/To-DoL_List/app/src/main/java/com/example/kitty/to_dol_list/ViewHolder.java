@@ -7,9 +7,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-/**
- * Created by kitty on 6/22/16.
- */
+// view holder for sublist
 public class ViewHolder {
 
     CheckBox checkBox;
