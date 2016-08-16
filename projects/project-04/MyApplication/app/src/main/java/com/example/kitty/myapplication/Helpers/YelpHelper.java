@@ -35,7 +35,7 @@ public class YelpHelper {
     ArrayList<Business> resultsBusinesses;
     private static OnResponseFinished onResponseFinished;
 
-    //boolean to check retrofit synchonisity
+    //boolean to check retrofit synchronicity
     public interface OnResponseFinished {
         void onBusinessReceived(ArrayList<Business> buisnesses);
 
@@ -71,7 +71,7 @@ public class YelpHelper {
 
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-                Toast.makeText(context, R.string.failed_to_connect_string, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.failed_to_connect, Toast.LENGTH_SHORT).show();
             }
         });
     }
