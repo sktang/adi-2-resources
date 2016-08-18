@@ -13,8 +13,8 @@ import retrofit2.http.Query;
 public interface OpenWeatherInterface {
 
     @GET("/data/2.5/weather")
-    Call<Model> getWeather(@Query("lat") String lat,
-                           @Query("lon") String lon,
+    Call<Model> getWeather(@Query("lat") double lat,
+                           @Query("lon") double lon,
                            @Query("appid") String appid);
 
 }

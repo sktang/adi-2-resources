@@ -9,4 +9,7 @@
 
     <string name="failed_to_connect">Fail to connect</string>
 
+    <string name="sunrise">sunrise</string>
+    <string name="sunset">sunset</string>
+
 </resources>

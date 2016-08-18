@@ -1,81 +1,128 @@
 package com.example.kitty.myapplication;
 
-import android.content.pm.PackageManager;
+import android.content.Context;
 import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.yelp.clientlib.connection.YelpAPI;
-import com.yelp.clientlib.connection.YelpAPIFactory;
+import com.example.kitty.myapplication.Interfaces.OpenWeatherInterface;
+import com.example.kitty.myapplication.WeatherModels.Model;
+import com.example.kitty.myapplication.fragments.MainFragment;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+import java.util.Date;
 
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleMap mMap;
-    private Location mLocation;
-    private LocationRequest locationRequest = new LocationRequest();
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-    private boolean curLocationShowing = false;
+public class MainActivity extends AppCompatActivity {
 
+    private static final String baseURL = "http://api.openweathermap.org/";
+    private static final String appid = "49cfc0e9ac185a3c66fe59313e33e0ed";
+    private static final String fragTag = "fragTag";
+
+    private OpenWeatherInterface openWeatherInterface;
+    private Callback<Model> callback;
+
+    private TextView curTempTV, sunriseTV, sunsetTV;
+
+    private double latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
+        setViews();
+        setWeatherApi();
+        setCallback();
+
+        getCurrentLocation();
+        getCurrentWeather();
+
+        startMainFragment();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    private void setViews() {
+        curTempTV = (TextView) findViewById(R.id.activity_main_temperature_tv);
+        sunriseTV = (TextView) findViewById(R.id.activity_main_sunrise_time_tv);
+        sunsetTV = (TextView) findViewById(R.id.activity_main_sunset_time_tv);
+    }
 
+    private void startMainFragment() {
+        // create a new main fragment
+        MainFragment mainFragment = new MainFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.add(R.id.fragment_container, mainFragment);
+        fragmentTransaction.addToBackStack(fragTag);
+        fragmentTransaction.commit();
+    }
+
+    private void getCurrentLocation() {
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+    }
+
+    private void getCurrentWeather() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()){
+            Toast.makeText(MainActivity.this, R.string.failed_to_connect, Toast.LENGTH_LONG).show();
             return;
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
-        } else {
-            mLocation = location;
-            //mfrag.getMapAsync(this);
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        openWeatherInterface.getWeather(latitude, longitude, appid).enqueue(callback);
     }
 
-    // Google Maps
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        if (!curLocationShowing) {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            curLocationShowing = true;
-        }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
-
-        // ToDo: need to call YelpAPI and GoogleLocationAPI using mLocation
+    private void setWeatherApi(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        openWeatherInterface = retrofit.create(OpenWeatherInterface.class);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        mLocation = location;
+    private void setCallback(){
+        callback = new Callback<Model>() {
+            @Override
+            public void onResponse(Call<Model> call, Response<Model> response) {
+                try {
+                    double currentTempCel = response.body().getMain().getTemp().doubleValue();
+                    long sunriseTime = response.body().getSys().getSunrise();
+                    long sunsetTime = response.body().getSys().getSunset();
+
+                    //ToDo: update to have option of Feh or Cel
+                    //String tempString = String.valueOf(Util.getFeh(currentTempCel));
+                    curTempTV.setText(String.valueOf(currentTempCel) + (char) 0x00B0);
+                    updateSunriseSunset(sunriseTV, getString(R.string.sunrise), sunriseTime);
+                    updateSunriseSunset(sunsetTV, getString(R.string.sunset), sunsetTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<Model> call, Throwable t) {
+                t.printStackTrace();
+            }
+        };
+    }
+
+    private void updateSunriseSunset(TextView textView, String prefix, long time){
+        long sunsetTimestamp = time * 1000L; // TODO check if words without the 1000L
+        Date sunsetDate = new Date(sunsetTimestamp);
+        textView.setText(prefix + String.valueOf(sunsetDate) );
     }
 }
