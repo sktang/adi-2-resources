@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/activity_main_temperature_tv"
-        android:text="20 degrees"
-        android:textSize="24dp"
-        android:layout_toLeftOf="@id/activity_main_sunrise_sunset_LL"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/activity_main_sunrise_sunset_LL"
@@ -60,6 +52,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/activity_main_temperature_tv"
+        android:text="20 degrees"
+        android:textSize="24dp"
+        android:layout_toLeftOf="@id/activity_main_sunrise_sunset_LL"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

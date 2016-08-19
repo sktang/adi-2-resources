@@ -1,11 +1,13 @@
 package com.example.kitty.myapplication;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.example.kitty.myapplication.fragments.MainFragment;
 
 import java.util.Date;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private OpenWeatherInterface openWeatherInterface;
     private Callback<Model> callback;
-
     private TextView curTempTV, sunriseTV, sunsetTV;
 
     private double latitude, longitude;
@@ -40,17 +42,47 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_main);
 
         setViews();
         setWeatherApi();
         setCallback();
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+            return;
+        }
 
         getCurrentLocation();
         getCurrentWeather();
 
         startMainFragment();
     }
+
+    //region Permissions
+
+    /**
+     * This method returns to us the results of our permission request
+     *
+     * @param requestCode  The original code we sent the request with. If this code doesn't match, its not our result.
+     * @param permissions  Array of permissions in the order they were asked
+     * @param grantResults Results for each permission ( granted or not granted ) in the same order of permission array
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        } else {
+            getCurrentLocation();
+            getCurrentWeather();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    //endregion Permissions
 
     private void setViews() {
         curTempTV = (TextView) findViewById(R.id.activity_main_temperature_tv);
@@ -71,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCurrentLocation() {
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); //checked in onCreate
         longitude = location.getLongitude();
         latitude = location.getLatitude();
     }
@@ -105,10 +137,12 @@ public class MainActivity extends AppCompatActivity {
                     long sunsetTime = response.body().getSys().getSunset();
 
                     //ToDo: update to have option of Feh or Cel
-                    //String tempString = String.valueOf(Util.getFeh(currentTempCel));
-                    curTempTV.setText(String.valueOf(currentTempCel) + (char) 0x00B0);
-                    updateSunriseSunset(sunriseTV, getString(R.string.sunrise), sunriseTime);
-                    updateSunriseSunset(sunsetTV, getString(R.string.sunset), sunsetTime);
+                    double fahrenheit = 1.8 * (currentTempCel - 273) + 32;
+                    int fahrenheitInt = ((int) fahrenheit);
+                    String temp = String.valueOf(fahrenheitInt);
+                    curTempTV.setText(temp + (char) 0x00B0);
+                    updateSunriseSunset(sunriseTV, sunriseTime);
+                    updateSunriseSunset(sunsetTV, sunsetTime);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -120,9 +154,10 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void updateSunriseSunset(TextView textView, String prefix, long time){
+    private void updateSunriseSunset(TextView textView, long time){
         long sunsetTimestamp = time * 1000L; // TODO check if words without the 1000L
         Date sunsetDate = new Date(sunsetTimestamp);
-        textView.setText(prefix + String.valueOf(sunsetDate) );
+        textView.setText(sunsetDate.toString());
     }
+
 }
