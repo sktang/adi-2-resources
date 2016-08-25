@@ -58,6 +58,7 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
     private static final String TAG = "ParksFragment";
 
     private FloatingActionButton fab;
+    private FloatingActionButton filterFab;
     private GoogleMap map;
 
     private SupportMapFragment supportMapFragment;
@@ -98,6 +99,7 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
         mapFragment = v.findViewById(R.id.fragment_parks_map);
         Log.d("mapfrag", mapFragment + "");
         fab = (FloatingActionButton) v.findViewById(R.id.fragment_parks_fab);
+        filterFab = (FloatingActionButton) v.findViewById(R.id.fragment_parks_filter_fab);
     }
 
 
@@ -107,6 +109,12 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
             @Override
             public void onClick(View view) {
                 switchingBtwListMap();
+            }
+        });
+        filterFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateParkType();
             }
         });
     }
@@ -125,7 +133,6 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
         map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
         HashMap<String, String> params = new HashMap<>();
-
         String searchTerm = dogParksOnlyFilter ? "dog parks" : "parks";
         params.put("term", searchTerm);
         helper.getBusinesses(params, location);
@@ -244,17 +251,20 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
 
     // region park type
 
-    private void setParkType() {
+    private void updateParkType() {
         map.clear();
         map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.current_location_string)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         HashMap<String, String> params = new HashMap<>();
         if (dogParksOnlyFilter) {
-            params.put("dogParksOnly", getString(R.string.dogPark));
+            params.put("term", getString(R.string.allPark));
             helper.getBusinesses(params, location);
+            filterFab.setImageResource(R.drawable.ic_pets_white_24dp);
         } else {
-            params.put("allPark", getString(R.string.allPark));
+            params.put("term", getString(R.string.dogPark));
             helper.getBusinesses(params, location);
+            filterFab.setImageResource(R.drawable.ic_landscape_white_24dp);
         }
+        dogParksOnlyFilter = !dogParksOnlyFilter;
     }
 
 
