@@ -3,19 +3,26 @@ package com.example.kitty.myapplication.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.kitty.myapplication.R;
+import com.yelp.clientlib.entities.Business;
 
 /**
  * Created by kitty on 8/18/16.
  */
 public class MainFragment extends Fragment {
 
+    public static final String parkFragTag = "searchTag";
+
     private Button startWalkButton, findParksButton, historyButton;
+    private ParksFragment parksFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,8 +34,13 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         setViews(v);
-        setButtonOnClick();
         return v;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        setButtonOnClick();
     }
 
     private void setViews(View v) {
@@ -43,19 +55,30 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // ToDo: to go maps fragment
+                Toast.makeText(getActivity(), "button clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
         findParksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ToDo: go to maps fragment with parks mapped out
+                Toast.makeText(getActivity(), "button clicked", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                if (parksFragment == null) {
+                    parksFragment = new ParksFragment();
+                }
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, parksFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "button clicked", Toast.LENGTH_SHORT).show();
                 // ToDo: go to history fragment (list frag)
             }
         });

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/fragment_details_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/fragment_details_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text ="Yelp Ratings" />
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:id="@+id/fragment_details_yelp_review_rating_bar"
+            android:background="@color/colorAccent"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fragment_details_address_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text ="Street Add" />
+
+    <TextView
+        android:id="@+id/fragment_details_city_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text ="City, State" />
+
+
+    <TextView
+        android:id="@+id/fragment_details_zipcode_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:fontFamily="monospace"
+        android:text ="Zip code" />
+
+    <TextView
+        android:id="@+id/details_fragment_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text ="distance from user" />
+
+    <TextView
+        android:id="@+id/details_fragment_time_until_sunset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text ="2 hours until sunset" />
+
+</LinearLayout>

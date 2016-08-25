@@ -18,9 +18,9 @@ import com.example.kitty.myapplication.Interfaces.OpenWeatherInterface;
 import com.example.kitty.myapplication.WeatherModels.Model;
 import com.example.kitty.myapplication.fragments.MainFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setWeatherApi();
         setCallback();
 
+        // if location permission isn't granted yet, prompt permission request
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // if permission is already granted, then get location and weather
         getCurrentLocation();
         getCurrentWeather();
 
@@ -75,10 +77,13 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
-        } else {
-            getCurrentLocation();
-            getCurrentWeather();
         }
+
+        getCurrentLocation();
+        getCurrentWeather();
+
+        startMainFragment();
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -97,9 +102,12 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.fragment_container, mainFragment);
-        fragmentTransaction.addToBackStack(fragTag);
-        fragmentTransaction.commit();
+        if(fragmentManager.findFragmentByTag(MainFragment.parkFragTag) == null) {
+            fragmentTransaction.add(R.id.fragment_container, mainFragment);
+            fragmentTransaction.addToBackStack(fragTag);
+            fragmentTransaction.commit();
+        }
+
     }
 
     private void getCurrentLocation() {
@@ -140,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
                     double fahrenheit = 1.8 * (currentTempCel - 273) + 32;
                     int fahrenheitInt = ((int) fahrenheit);
                     String temp = String.valueOf(fahrenheitInt);
+
+                    //ToDo: figure out why degree symbol isn't showing
                     curTempTV.setText(temp + (char) 0x00B0);
                     updateSunriseSunset(sunriseTV, sunriseTime);
                     updateSunriseSunset(sunsetTV, sunsetTime);
@@ -155,9 +165,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSunriseSunset(TextView textView, long time){
-        long sunsetTimestamp = time * 1000L; // TODO check if words without the 1000L
-        Date sunsetDate = new Date(sunsetTimestamp);
-        textView.setText(sunsetDate.toString());
+        long sunTimestamp = time * 1000L;
+        SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+        textView.setText(localDateFormat.format(sunTimestamp));
     }
-
 }

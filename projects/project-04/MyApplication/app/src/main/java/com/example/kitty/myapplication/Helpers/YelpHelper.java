@@ -50,15 +50,12 @@ public class YelpHelper {
     }
 
 
-    //GetsBuisnesses by Params
-    public void getBusinesess(Map<String, String> params, Location location) {
+    //Gets Buisnesses by Params
+    public void getBusinesses(Map<String, String> params, Location location) {
         CoordinateOptions coordinateOptions = CoordinateOptions.builder().latitude(location.getLatitude()).longitude(location.getLongitude()).build();
 
         Log.d("lat and lon for Busis", location.getLatitude() + " ," + location.getLongitude());
         Call<SearchResponse> call = yelpAPI.search(coordinateOptions, params);
-
-        final ArrayList<Business> businesses = new ArrayList<>();
-
 
         call.enqueue(new Callback<SearchResponse>() {
 
@@ -75,6 +72,4 @@ public class YelpHelper {
             }
         });
     }
-
-
 }

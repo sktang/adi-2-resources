@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
+import com.example.kitty.myapplication.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -25,10 +26,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
 
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleMap mMap;
-    private Location mLocation;
-    private LocationRequest locationRequest = new LocationRequest();
+    private static final String TAG = "LocationActivity";
+    private static final long INTERVAL = 1000; //1 second
+    private static final long FASTEST_INTERVAL = 1000; // 1 second
+
+    private GoogleApiClient googleApiClient;
+    private GoogleMap map;
+    private Location currentLocation;
+    private LocationRequest locationRequest;
 
     private boolean curLocationShowing = false;
 
@@ -36,10 +41,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        map.setMyLocationEnabled(true);
 
     }
 
@@ -55,12 +62,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         } else {
-            mLocation = location;
-            //mfrag.getMapAsync(this);
+            currentLocation = location;
+            mfrag.getMapAsync(this);
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -77,15 +84,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        map = googleMap;
 
         // Refactor into setupMap method
         if (!curLocationShowing) {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            map.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
             curLocationShowing = true;
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLocation.getLatitude(), mLocation.getLongitude())));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()), 15));
+        map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 15));
 
         // ToDo: need to call YelpAPI and GoogleLocationAPI using mLocation
     }
@@ -96,8 +103,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
      */
     @Override
     public void onLocationChanged(Location location) {
-        mLocation = location;
+        location = location;
     }
 
     //endregion
+
+    protected void createLocationRequest() {
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
 }

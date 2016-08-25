@@ -12,4 +12,11 @@
     <string name="sunrise">sunrise</string>
     <string name="sunset">sunset</string>
 
+    <string name="dogPark">dog park</string>
+    <string name="allPark">park</string>
+
+    <string name="service_not_available_string">Service Not Available</string>
+    <string name="unknown_type_string">Unknown Type</string>
+    <string name="current_location_string">Current Location</string>
+
 </resources>
