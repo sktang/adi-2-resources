@@ -28,7 +28,6 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:id="@+id/fragment_details_yelp_review_rating_bar"
-            android:background="@color/colorAccent"
             android:scaleX="0.75"
             android:scaleY="0.75"
             android:layout_height="wrap_content" />
@@ -57,19 +56,5 @@
         android:textSize="16dp"
         android:fontFamily="monospace"
         android:text ="Zip code" />
-
-    <TextView
-        android:id="@+id/details_fragment_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:text ="distance from user" />
-
-    <TextView
-        android:id="@+id/details_fragment_time_until_sunset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:text ="2 hours until sunset" />
 
 </LinearLayout>

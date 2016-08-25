@@ -39,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailFragment extends Fragment implements YelpHelper.OnResponseFinished {
 
     private ImageView parkImage;
-    private TextView parkName, address, city, zipcode, distance, timeToSunset;
+    private TextView parkName, address, city, zipcode;
     private RatingBar ratingBar;
 
     private Business currentPark;
@@ -70,10 +70,10 @@ public class DetailFragment extends Fragment implements YelpHelper.OnResponseFin
 
     public void populateViews() {
 
-        double ratingDouble = (currentPark.rating());
+        double ratingDouble = currentPark.rating();
         float ratingFloat = (float) ratingDouble;
         Drawable progress = ratingBar.getProgressDrawable();
-        DrawableCompat.setTint(progress, Color.WHITE);
+        DrawableCompat.setTint(progress, Color.BLUE);
         ratingBar.setRating(ratingFloat);
 
         parkName.setText(currentPark.name());
@@ -100,8 +100,6 @@ public class DetailFragment extends Fragment implements YelpHelper.OnResponseFin
         address = (TextView) v.findViewById(R.id.fragment_details_address_tv);
         city = (TextView) v.findViewById(R.id.fragment_details_city_tv);
         zipcode = (TextView) v.findViewById(R.id.fragment_details_zipcode_tv);
-        distance = (TextView) v.findViewById(R.id.details_fragment_distance);
-        timeToSunset = (TextView) v.findViewById(R.id.details_fragment_time_until_sunset);
         ratingBar = (RatingBar) v.findViewById(R.id.fragment_details_yelp_review_rating_bar);
 
     }

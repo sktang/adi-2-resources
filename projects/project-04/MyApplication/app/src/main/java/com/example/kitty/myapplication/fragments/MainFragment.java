@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.kitty.myapplication.R;
-import com.yelp.clientlib.entities.Business;
 
 /**
  * Created by kitty on 8/18/16.
@@ -23,6 +22,7 @@ public class MainFragment extends Fragment {
 
     private Button startWalkButton, findParksButton, historyButton;
     private ParksFragment parksFragment;
+    private MapsFragment mapsFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,20 +54,24 @@ public class MainFragment extends Fragment {
         startWalkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // ToDo: to go maps fragment
-                Toast.makeText(getActivity(), "button clicked", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                if (mapsFragment == null) {
+                    mapsFragment = new MapsFragment();
+                }
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, mapsFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         findParksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "button clicked", Toast.LENGTH_SHORT).show();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 if (parksFragment == null) {
                     parksFragment = new ParksFragment();
                 }
-
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, parksFragment);
                 fragmentTransaction.addToBackStack(null);

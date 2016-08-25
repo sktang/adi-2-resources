@@ -68,14 +68,7 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-        googleApiClient.connect();
+        connectGoogleAPIClient();
         helper = new YelpHelper(getActivity(), ParksFragment.this);
     }
 
@@ -86,8 +79,6 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
         setViews(v);
         setOnClicks();
         mapVisible = true;
-
-
         return v;
     }
 
@@ -248,26 +239,6 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
 
     // endregion
 
-
-    // region park type
-
-    private void updateParkType() {
-        map.clear();
-        map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.current_location_string)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        HashMap<String, String> params = new HashMap<>();
-        if (dogParksOnlyFilter) {
-            params.put("term", getString(R.string.allPark));
-            helper.getBusinesses(params, location);
-            filterFab.setImageResource(R.drawable.ic_pets_white_24dp);
-        } else {
-            params.put("term", getString(R.string.dogPark));
-            helper.getBusinesses(params, location);
-            filterFab.setImageResource(R.drawable.ic_landscape_white_24dp);
-        }
-        dogParksOnlyFilter = !dogParksOnlyFilter;
-    }
-
-
     // region Recycler View
 
     private void switchingBtwListMap() {
@@ -299,6 +270,35 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
     }
 
     // endregion
+
+    private void updateParkType() {
+        map.clear();
+        map.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title(getString(R.string.current_location_string)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        HashMap<String, String> params = new HashMap<>();
+        if (dogParksOnlyFilter) {
+            params.put("term", getString(R.string.allPark));
+            helper.getBusinesses(params, location);
+            filterFab.setImageResource(R.drawable.ic_pets_white_24dp);
+        } else {
+            params.put("term", getString(R.string.dogPark));
+            helper.getBusinesses(params, location);
+            filterFab.setImageResource(R.drawable.ic_landscape_white_24dp);
+        }
+        dogParksOnlyFilter = !dogParksOnlyFilter;
+    }
+
+    // creating google API Client if does not yet exist and connect it
+    private void connectGoogleAPIClient() {
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        googleApiClient.connect();
+    }
+
 
 
 //    public long getPlaceId(Business currentBusiness) {
