@@ -54,7 +54,7 @@ public class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAd
          * view. If you look at step 0, you'll see our top level layout is LinearLayout.
          *
          * We pass this LinearLayout view to our SampleViewHolder so we can pull our
-         * ImageView and TextView out of it via their id's
+         * TextView out of it via their id's
          */
         View listItemLayout = inflater.inflate(R.layout.history_list_item, parent, false);
 
@@ -70,7 +70,7 @@ public class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAd
         Walk dataItem = data.get(position);
 
         /**
-         * Pull out the inflated TextView/ImageView references out of our SampleViewHolder
+         * Pull out the inflated TextView references out of our SampleViewHolder
          * instance.
          *
          * Look at the constructor of SampleViewHolder() and note that variable fields

@@ -21,4 +21,6 @@
 
     <string name="dialog_title">Summary</string>
 
+    <string name="action_home">Home</string>
+
 </resources>
