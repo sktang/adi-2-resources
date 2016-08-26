@@ -15,11 +15,11 @@
 
     <LinearLayout
         android:id="@+id/activity_main_sunrise_sunset_LL"
+        android:layout_below="@id/my_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="12dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
@@ -65,6 +65,7 @@
         android:id="@+id/activity_main_temperature_tv"
         android:text="20 degrees"
         android:textSize="24dp"
+        android:layout_below="@id/my_toolbar"
         android:layout_toLeftOf="@id/activity_main_sunrise_sunset_LL"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"

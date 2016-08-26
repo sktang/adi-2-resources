@@ -33,7 +33,6 @@ public class HistoryRecViewAdapter extends RecyclerView.Adapter<HistoryRecViewAd
 
         public SampleViewHolder(final View itemView) {
             super(itemView);
-
             this.date = (TextView) itemView.findViewById(R.id.history_list_item_date);
             this.distance = (TextView) itemView.findViewById(R.id.history_list_item_distance);
             this.totalTime = (TextView) itemView.findViewById(R.id.history_list_item_total_time);

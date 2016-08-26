@@ -7,7 +7,7 @@ public class Walk {
 
     private String date;
     private String time;
-    private String distance;
+    private float distance;
     private String totalTime;
 
     public String getDate() {
@@ -26,11 +26,11 @@ public class Walk {
         this.time = time;
     }
 
-    public String getDistance() {
+    public float getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(float distance) {
         this.distance = distance;
     }
 

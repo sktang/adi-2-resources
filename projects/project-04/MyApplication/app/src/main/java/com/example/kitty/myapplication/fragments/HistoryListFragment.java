@@ -72,7 +72,7 @@ public class HistoryListFragment extends Fragment {
             Walk temp = new Walk();
             temp.setDate(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DataEntryHistory.COL_DATE)));
             temp.setTime(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DataEntryHistory.COL_TIME)));
-            temp.setDistance(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DataEntryHistory.COL_DISTANCE)));
+            temp.setDistance(cursor.getFloat(cursor.getColumnIndex(DatabaseHelper.DataEntryHistory.COL_DISTANCE)));
             temp.setTotalTime(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DataEntryHistory.COL_TOTAL_TIME)));
             history.add(temp);
         }
