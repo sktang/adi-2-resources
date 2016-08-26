@@ -3,10 +3,12 @@ package com.example.kitty.myapplication;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -37,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private Callback<Model> callback;
     private TextView curTempTV, sunriseTV, sunsetTV;
 
-    private double latitude, longitude;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         // if permission is already granted, then get location and weather
         getCurrentLocation();
-        getCurrentWeather();
-
         startMainFragment();
     }
 
@@ -81,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getCurrentLocation();
-        getCurrentWeather();
-
         startMainFragment();
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -103,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(fragmentManager.findFragmentByTag(MainFragment.parkFragTag) == null) {
+        if (fragmentManager.findFragmentByTag(MainFragment.parkFragTag) == null) {
             fragmentTransaction.add(R.id.fragment_container, mainFragment);
             fragmentTransaction.addToBackStack(fragTag);
             fragmentTransaction.commit();
@@ -111,21 +107,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getCurrentLocation() {
+    private void getCurrentLocation() throws SecurityException {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); //checked in onCreate
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
+        if (location == null) {
+            locationManager.requestSingleUpdate(
+                    LocationManager.GPS_PROVIDER, new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            getCurrentWeather(location);
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s) {
+
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s) {
+
+                        }
+                    }, Looper.myLooper());
+        }
     }
 
-    private void getCurrentWeather() {
+    private void getCurrentWeather(Location location) {
+        if (location == null) {
+            return;
+        }
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnected()){
             Toast.makeText(MainActivity.this, R.string.failed_to_connect, Toast.LENGTH_LONG).show();
             return;
         }
-        openWeatherInterface.getWeather(latitude, longitude, appid).enqueue(callback);
+        openWeatherInterface.getWeather(location.getLongitude(), location.getLatitude(), appid).enqueue(callback);
     }
 
     private void setWeatherApi(){

@@ -17,9 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.kitty.myapplication.Helpers.YelpHelper;
+import com.example.kitty.myapplication.helpers.YelpHelper;
 import com.example.kitty.myapplication.R;
-import com.example.kitty.myapplication.RecyclerViewAdapter;
+import com.example.kitty.myapplication.adapters.RecyclerViewAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;

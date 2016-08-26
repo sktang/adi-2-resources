@@ -1,4 +1,4 @@
-package com.example.kitty.myapplication;
+package com.example.kitty.myapplication.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kitty.myapplication.R;
 import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.entities.Business;
 

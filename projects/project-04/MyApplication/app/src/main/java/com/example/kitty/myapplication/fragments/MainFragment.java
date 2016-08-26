@@ -23,6 +23,7 @@ public class MainFragment extends Fragment {
     private Button startWalkButton, findParksButton, historyButton;
     private ParksFragment parksFragment;
     private MapsFragment mapsFragment;
+    private HistoryListFragment historyListFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,8 +83,14 @@ public class MainFragment extends Fragment {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "button clicked", Toast.LENGTH_SHORT).show();
-                // ToDo: go to history fragment (list frag)
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                if (historyListFragment == null) {
+                    historyListFragment = new HistoryListFragment();
+                }
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, historyListFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }

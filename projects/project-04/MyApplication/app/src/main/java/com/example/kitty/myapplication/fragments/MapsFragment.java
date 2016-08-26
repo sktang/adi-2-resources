@@ -1,7 +1,6 @@
 package com.example.kitty.myapplication.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,15 +16,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.kitty.myapplication.Helpers.DatabaseHelper;
+import com.example.kitty.myapplication.helpers.DatabaseHelper;
 import com.example.kitty.myapplication.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -62,6 +59,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
 //    private View mapFragment;
     private FloatingActionButton startStopFab;
     private DatabaseHelper helper;
+
+    private HistoryListFragment historyListFragment;
 
     private Date startTime;
 
@@ -279,8 +278,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
                 .setPositiveButton("View History", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // ToDo: to go history fragment
-                        Toast.makeText(getActivity(), "to go history frag", Toast.LENGTH_SHORT).show();
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        if (historyListFragment == null) {
+                            historyListFragment = new HistoryListFragment();
+                        }
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container, historyListFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
 

@@ -1,7 +1,6 @@
 package com.example.kitty.myapplication.fragments;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -10,28 +9,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.kitty.myapplication.Helpers.YelpHelper;
+import com.example.kitty.myapplication.helpers.YelpHelper;
 import com.example.kitty.myapplication.R;
 import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.entities.Business;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by kitty on 8/23/16.

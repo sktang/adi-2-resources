@@ -1,4 +1,4 @@
-package com.example.kitty.myapplication.Helpers;
+package com.example.kitty.myapplication.helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -77,8 +77,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.insertOrThrow(DataEntryHistory.TABLE_NAME,null,values);
     }
 
-    public Cursor getFavoritesList() {
-        //returning favorites list table with cursor
+    public Cursor getHistoryList() {
+        //returning history list table with cursor
 
         SQLiteDatabase db = this.getReadableDatabase();
 

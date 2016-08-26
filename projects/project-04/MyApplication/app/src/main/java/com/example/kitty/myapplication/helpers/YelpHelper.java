@@ -1,4 +1,4 @@
-package com.example.kitty.myapplication.Helpers;
+package com.example.kitty.myapplication.helpers;
 
 import android.content.Context;
 import android.location.Location;
