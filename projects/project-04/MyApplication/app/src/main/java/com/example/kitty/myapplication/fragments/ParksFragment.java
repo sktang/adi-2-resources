@@ -163,6 +163,7 @@ public class ParksFragment extends Fragment implements OnMapReadyCallback, Googl
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
+            return;
         }
         Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (location == null) {

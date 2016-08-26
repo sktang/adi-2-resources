@@ -2,6 +2,7 @@ package com.example.kitty.myapplication;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,11 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kitty.myapplication.Interfaces.OpenWeatherInterface;
-import com.example.kitty.myapplication.WeatherModels.Model;
+import com.example.kitty.myapplication.models.weatherModels.Main;
+import com.example.kitty.myapplication.models.weatherModels.Model;
 import com.example.kitty.myapplication.fragments.MainFragment;
+import com.example.kitty.myapplication.services.Firebase;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,9 +44,15 @@ public class MainActivity extends AppCompatActivity {
     private static final String appid = "49cfc0e9ac185a3c66fe59313e33e0ed";
     private static final String fragTag = "fragTag";
 
+//    private FirebaseAnalytics firebaseAnalytics;
     private OpenWeatherInterface openWeatherInterface;
     private Callback<Model> callback;
     private TextView curTempTV, sunriseTV, sunsetTV;
+
+    private FirebaseDatabase database;
+    private DatabaseReference msgRef;
+
+    private Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         // if permission is already granted, then get location and weather
         getCurrentLocation();
         startMainFragment();
+
+        setFirebase();
     }
 
     //region Permissions
@@ -88,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //endregion Permissions
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -102,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_home:
 
                 startMainFragment();
+
+                return true;
+
+            case R.id.action_alert:
+
+                sendAlert();
+
                 return true;
 
             default:
@@ -112,14 +134,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //endregion Permissions
-
     private void setViews() {
         curTempTV = (TextView) findViewById(R.id.activity_main_temperature_tv);
         sunriseTV = (TextView) findViewById(R.id.activity_main_sunrise_time_tv);
         sunsetTV = (TextView) findViewById(R.id.activity_main_sunset_time_tv);
         Toolbar toolbar = (Toolbar)findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
     }
 
     private void startMainFragment() {
@@ -140,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     private void getCurrentLocation() throws SecurityException {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); //checked in onCreate
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); //checked in onCreate
         if (location == null) {
             locationManager.requestSingleUpdate(
                     LocationManager.GPS_PROVIDER, new LocationListener() {
@@ -222,5 +243,24 @@ public class MainActivity extends AppCompatActivity {
         long sunTimestamp = time * 1000L;
         SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
         textView.setText(localDateFormat.format(sunTimestamp));
+    }
+
+    private void setFirebase() {
+//        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "8");
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainCreated");
+//        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+//        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+        database = FirebaseDatabase.getInstance();
+    }
+
+    private void sendAlert() {
+        Firebase ref = new Firebase(FIREBASE_URL);
+        msgRef = database.getReference("warning");
+        msgRef.setValue(location.getLatitude() + ", " + location.getLongitude());
+        Toast.makeText(MainActivity.this, "Warning sent to all users", Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.kitty.myapplication.WeatherModels;
+package com.example.kitty.myapplication.models.weatherModels;
 
 import com.google.gson.annotations.Expose;
 

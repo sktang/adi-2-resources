@@ -1,6 +1,6 @@
 package com.example.kitty.myapplication;
 
-import com.example.kitty.myapplication.Utilities.PermissionUtils;
+import com.example.kitty.myapplication.utilities.PermissionUtils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;

@@ -1,6 +1,6 @@
 package com.example.kitty.myapplication.Interfaces;
 
-import com.example.kitty.myapplication.WeatherModels.Model;
+import com.example.kitty.myapplication.models.weatherModels.Model;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

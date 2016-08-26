@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "740365322868",
+    "firebase_url": "https://pawhood-a50f4.firebaseio.com",
+    "project_id": "pawhood-a50f4",
+    "storage_bucket": "pawhood-a50f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740365322868:android:d6076e0f610331b4",
+        "android_client_info": {
+          "package_name": "com.example.kitty.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740365322868-io0i0i0tpco8eff3dmgk8jsuesd04u23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy6Z4f9SfvR6XXHlHF_VeC07W_BpA2fBo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

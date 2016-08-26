@@ -22,6 +22,7 @@
         android:layout_alignParentRight="true"
         android:orientation="vertical"
         android:paddingRight="16dp"
+        android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:layout_weight="1">
 
@@ -68,6 +69,7 @@
         android:layout_below="@id/my_toolbar"
         android:layout_toLeftOf="@id/activity_main_sunrise_sunset_LL"
         android:gravity="center_horizontal"
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

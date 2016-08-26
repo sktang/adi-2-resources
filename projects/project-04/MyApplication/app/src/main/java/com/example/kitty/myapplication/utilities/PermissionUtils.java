@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.kitty.myapplication.Utilities;
+package com.example.kitty.myapplication.utilities;
 
 import android.Manifest;
 import android.app.AlertDialog;
