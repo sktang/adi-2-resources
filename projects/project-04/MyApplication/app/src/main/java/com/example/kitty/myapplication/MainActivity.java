@@ -258,9 +258,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendAlert() {
-        Firebase ref = new Firebase(FIREBASE_URL);
-        msgRef = database.getReference("warning");
-        msgRef.setValue(location.getLatitude() + ", " + location.getLongitude());
-        Toast.makeText(MainActivity.this, "Warning sent to all users", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, R.string.feature_not_available, Toast.LENGTH_SHORT).show();
     }
 }

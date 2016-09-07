@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="16dp"
     android:background="@color/white"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/fragment_main_start_walk_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Start Walk"/>
+        style="@style/MainButton"
+        android:text="Start Walk"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/fragment_main_find_parks_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        style="@style/MainButton"
         android:text="Find Parks"/>
 
     <Button
         android:id="@+id/fragment_main_history_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        style="@style/MainButton"
         android:text="History"/>
 
 </LinearLayout>

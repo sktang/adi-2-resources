@@ -56,7 +56,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Locati
     private Location curLocation;
     private LocationRequest locationRequest;
     private SupportMapFragment supportMapFragment;
-//    private View mapFragment;
     private FloatingActionButton startStopFab;
     private DatabaseHelper helper;
 
