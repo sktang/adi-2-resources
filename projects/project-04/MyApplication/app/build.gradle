@@ -1,11 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'android'
+            storeFile file('/home/kitty/keystores/android.jks')
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
-
     defaultConfig {
-        applicationId "com.example.kitty.myapplication"
+        applicationId "dev.kitty.pawhood"
         minSdkVersion 17
         targetSdkVersion 24
         versionCode 1
@@ -17,9 +22,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-    dexOptions{
+    dexOptions {
         javaMaxHeapSize "2g"
     }
 }
@@ -30,27 +36,22 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:cardview-v7:24.0.+'
     compile 'com.android.support:design:24.1.1'
     compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.android.support:multidex:1.0.0'
-
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-
     // Yelp Library
     compile 'com.yelp.clientlib:yelp-android:2.0.0'
-
     // Recycler View
     compile 'com.android.support:recyclerview-v7:24.1.1'
-
     // Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     // Firebase
     compile 'com.google.firebase:firebase-database:9.2.1'
 }

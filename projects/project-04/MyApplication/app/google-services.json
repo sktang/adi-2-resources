@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "740365322868",
-    "firebase_url": "https://pawhood-a50f4.firebaseio.com",
-    "project_id": "pawhood-a50f4",
-    "storage_bucket": "pawhood-a50f4.appspot.com"
+    "project_number": "1037405347759",
+    "firebase_url": "https://pawhood-574ee.firebaseio.com",
+    "project_id": "pawhood-574ee",
+    "storage_bucket": "pawhood-574ee.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:740365322868:android:d6076e0f610331b4",
+        "mobilesdk_app_id": "1:1037405347759:android:1c34d329ae2de71c",
         "android_client_info": {
-          "package_name": "com.example.kitty.myapplication"
+          "package_name": "dev.kitty.pawhood"
         }
       },
       "oauth_client": [
         {
-          "client_id": "740365322868-io0i0i0tpco8eff3dmgk8jsuesd04u23.apps.googleusercontent.com",
+          "client_id": "1037405347759-km3nj8772ujnlb3dt7ejtr459qadepp8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBy6Z4f9SfvR6XXHlHF_VeC07W_BpA2fBo"
+          "current_key": "AIzaSyBLaFdrAgMPc2QLnPzNhpDcuKyG0hi6Ykk"
         }
       ],
       "services": {
