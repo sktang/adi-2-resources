@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/fragment_details_name"
+        android:textSize="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -43,21 +44,31 @@
     <android.support.v7.widget.CardView
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
-        <TextView
-            android:id="@+id/fragment_details_address_tv"
-            style="@style/DescriptionText"
-            android:text ="Street Add" />
 
-        <TextView
-            android:id="@+id/fragment_details_city_tv"
-            style="@style/DescriptionText"
-            android:text ="City, State" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/fragment_details_zipcode_tv"
-            style="@style/DescriptionText"
-            android:fontFamily="monospace"
-            android:text ="Zip code" />
+            <TextView
+                android:id="@+id/fragment_details_address_tv"
+                style="@style/DescriptionText"
+                android:text ="Street Add" />
+
+            <TextView
+                android:id="@+id/fragment_details_city_tv"
+                style="@style/DescriptionText"
+                android:text ="City, State" />
+
+            <TextView
+                android:id="@+id/fragment_details_zipcode_tv"
+                style="@style/DescriptionText"
+                android:fontFamily="monospace"
+                android:text ="Zip code" />
+
+        </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
