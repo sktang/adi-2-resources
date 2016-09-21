@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String baseURL = "http://api.openweathermap.org/";
+    private static final String baseURL = "http://api.openweathermap.org";
     private static final String appid = "49cfc0e9ac185a3c66fe59313e33e0ed";
     private static final String fragTag = "fragTag";
 
@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); //checked in onCreate
-        if (location == null) {
+        if (location != null) {
+            getCurrentWeather(location);
+        } else {
             locationManager.requestSingleUpdate(
                     LocationManager.GPS_PROVIDER, new LocationListener() {
                         @Override
@@ -169,17 +171,14 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onStatusChanged(String s, int i, Bundle bundle) {
-
                         }
 
                         @Override
                         public void onProviderEnabled(String s) {
-
                         }
 
                         @Override
                         public void onProviderDisabled(String s) {
-
                         }
                     }, Looper.myLooper());
         }
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, R.string.failed_to_connect, Toast.LENGTH_LONG).show();
             return;
         }
-        openWeatherInterface.getWeather(location.getLongitude(), location.getLatitude(), appid).enqueue(callback);
+        openWeatherInterface.getWeather(location.getLatitude(), location.getLongitude(), appid).enqueue(callback);
     }
 
     private void setWeatherApi(){
